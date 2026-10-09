@@ -37,6 +37,7 @@
    [leihs.admin.resources.inventory-pools.inventory-pool.mail-templates.mail-template.main :as inventory-pool-mail-template]
    [leihs.admin.resources.inventory-pools.inventory-pool.mail-templates.main :as inventory-pool-mail-templates]
    [leihs.admin.resources.inventory-pools.inventory-pool.main :as inventory-pool]
+   [leihs.admin.resources.inventory-pools.inventory-pool.time-slots.main :as inventory-pool-time-slots]
    [leihs.admin.resources.inventory-pools.inventory-pool.users.main :as inventory-pool-users]
    [leihs.admin.resources.inventory-pools.inventory-pool.users.user.direct-roles.main :as inventory-pool-user-direct-roles]
    [leihs.admin.resources.inventory-pools.inventory-pool.users.user.groups-roles.main :as inventory-pool-user-groups-roles]
@@ -206,6 +207,10 @@
                                     :authorizers [auth/admin-scopes?
                                                   pool-auth/pool-inventory-manager?
                                                   pool-auth/pool-lending-manager-and-http-safe?]}
+          :inventory-pool-time-slots {:handler inventory-pool-time-slots/routes
+                                      :authorizers [auth/admin-scopes?
+                                                    pool-auth/pool-inventory-manager?
+                                                    pool-auth/pool-lending-manager-and-http-safe?]}
           :inventory-pool-mail-template {:handler inventory-pool-mail-template/routes
                                          :authorizers [auth/admin-scopes?, pool-auth/pool-inventory-manager?]}
           :inventory-pool-mail-templates {:handler inventory-pool-mail-templates/routes

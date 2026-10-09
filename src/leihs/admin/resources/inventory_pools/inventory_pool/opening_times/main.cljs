@@ -4,6 +4,7 @@
    [leihs.admin.resources.inventory-pools.inventory-pool.core :as pool-core]
    [leihs.admin.resources.inventory-pools.inventory-pool.holidays.core :as holidays-core]
    [leihs.admin.resources.inventory-pools.inventory-pool.holidays.main :as holidays]
+   [leihs.admin.resources.inventory-pools.inventory-pool.time-slots.main :as time-slots]
    [leihs.admin.resources.inventory-pools.inventory-pool.workdays.core :as workdays-core]
    [leihs.admin.resources.inventory-pools.inventory-pool.workdays.main :as workdays]
    [leihs.admin.state :as state]
@@ -35,4 +36,6 @@
     [:div.row
      [:div.col-6 [workdays/component]]
      [:div.col-6 [holidays/component]]]
+    [:div.row
+     [:div.col-6 [time-slots/component]]]
     [debug-component]]])
