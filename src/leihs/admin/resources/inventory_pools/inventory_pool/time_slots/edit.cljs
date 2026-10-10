@@ -34,12 +34,22 @@
           (core/fetch)
           (search-params/delete-from-url "action")))))
 
+(defn overlapping-slot
+  "The kept time slot the new one would overlap with (times as \"HH:MM\")."
+  [{:keys [start_time end_time]}]
+  (when (and start_time end_time)
+    (->> @data*
+         (remove :delete)
+         (filter #(and (< start_time (:end_time %)) (< (:start_time %) end_time)))
+         first)))
+
 (defn add-new-time-slot-comp []
   (let [template {:inventory_pool_id (:id @pool-core/data*)}
         new-slot (reagent/atom template)]
     (fn []
       (let [{:keys [start_time end_time]} @new-slot
-            end-not-after-start? (and start_time end_time (<= end_time start_time))]
+            end-not-after-start? (and start_time end_time (<= end_time start_time))
+            overlapping (when-not end-not-after-start? (overlapping-slot @new-slot))]
         [:form.form-inline.align-items-end
          {:on-submit (fn [e]
                        (.preventDefault e)
@@ -70,10 +80,14 @@
                                       :on-change #(swap! new-slot assoc :end_time (-> % .-target .-value))}]]
          [:> Button {:type "submit"
                      :className "btn-info mb-2 ml-3"
-                     :disabled end-not-after-start?}
+                     :disabled (boolean (or end-not-after-start? overlapping))}
           "Add"]
          (when end-not-after-start?
-           [:div.text-danger.w-100 "\"To\" must be after \"From\"."])]))))
+           [:div.text-danger.w-100 "\"To\" must be after \"From\"."])
+         (when overlapping
+           [:div.text-danger.w-100
+            (str "Overlaps with \"" (:name overlapping) "\" ("
+                 (:start_time overlapping) "–" (:end_time overlapping) ").")])]))))
 
 (defn time-slot-row-comp [slot]
   [:<>
