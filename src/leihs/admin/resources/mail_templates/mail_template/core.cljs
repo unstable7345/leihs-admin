@@ -43,7 +43,9 @@
      [:li [:code :l.end_date]]
      [:li [:code :l.model_name]],
      [:li [:code :l.quantity]],
-     [:li [:code :l.start_date]]]],
+     [:li [:code :l.start_date]]
+     [:li [:code :l.start_time] ", " [:code :l.end_time] ", " [:code :l.time_slot]
+      " (time slot reservations only, e.g. 10:00–12:00; empty for whole days)"]]],
    [:li [:code :user.name]]])
 
 (def template-variables-for-user-component
@@ -63,7 +65,9 @@
      [:li [:code :l.item_inventory_code]]
      [:li [:code :l.model_name]],
      [:li [:code :l.quantity]],
-     [:li [:code :l.start_date]]]],
+     [:li [:code :l.start_date]]
+     [:li [:code :l.start_time] ", " [:code :l.end_time] ", " [:code :l.time_slot]
+      " (time slot reservations only, e.g. 10:00–12:00; empty for whole days)"]]],
    [:li [:code :user.name]]])
 
 (defn template-variables []
