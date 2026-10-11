@@ -34,8 +34,8 @@
     [pool-core/header]
     [pool-core/tabs]
     [:div.row
-     [:div.col-6 [workdays/component]]
-     [:div.col-6 [holidays/component]]]
-    [:div.row
-     [:div.col-6 [time-slots/component]]]
+     [:div.col-12.col-xl-6 [workdays/component]]
+     [:div.col-12.col-xl-6.mt-4.mt-xl-0 [holidays/component]]]
+    [:div.row.mt-4
+     [:div.col-12.col-xl-6 [time-slots/component]]]
     [debug-component]]])
