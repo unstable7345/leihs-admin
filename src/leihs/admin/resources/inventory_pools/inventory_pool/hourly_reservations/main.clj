@@ -38,7 +38,8 @@
       (sql/where [:= :id inventory-pool-id])
       sql-format
       (->> (jdbc/execute! tx)))
-  {:body (get-settings tx inventory-pool-id)})
+  ;; the audit of changes requires a status
+  {:status 200 :body (get-settings tx inventory-pool-id)})
 
 (defn routes [{{inventory-pool-id :inventory-pool-id} :route-params tx :tx :as request}]
   (case (:request-method request)
