@@ -7,6 +7,11 @@
 
 (defn query [inventory-pool-id entitlement-group-id]
   (-> entitlement-groups/base-query
+      ;; the limit of hours only matters in a pool with reservations by the hour
+      (sql/select [(-> (sql/select :hourly_reservations)
+                       (sql/from :inventory_pools)
+                       (sql/where [:= :inventory_pools.id :entitlement_groups.inventory_pool_id]))
+                   :pool_hourly_reservations])
       (sql/where
        [:= :entitlement_groups.inventory_pool_id inventory-pool-id])
       (sql/where [:= :entitlement_groups.id entitlement-group-id])))

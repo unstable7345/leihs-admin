@@ -27,7 +27,9 @@
     :label "Verification required"}
    {:key :max_reservation_hours
     :label "Max. hours per reservation (by the hour)"
-    :value-component (fn [value] [:span (if value (str value) "No limit")])}
+    :value-component (fn [value] [:span (if value (str value) "No limit")])
+    ;; only in a pool with reservations by the hour
+    :shown? :pool_hourly_reservations}
    {:key :entitlements_count
     :label "Number of models"}
    {:key :users_count
@@ -54,7 +56,10 @@
                                  [:th "Property"]
                                  [:th "Value"]]
                         :body (for [{key :key label :label value-component :value-component
-                                     :or {value-component default-value-component}} table-conf]
+                                     shown? :shown?
+                                     :or {value-component default-value-component
+                                          shown? (constantly true)}} table-conf
+                                    :when (shown? data)]
                                 [:tr {:key key}
                                  [:td.label label]
                                  [:td.value [value-component (-> data key)]]])}]])])
