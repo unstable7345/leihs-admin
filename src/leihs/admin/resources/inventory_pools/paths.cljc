@@ -63,7 +63,7 @@
                   (leaf "/fields" :inventory-pool-fields)
                   (leaf "/holidays" :inventory-pool-holidays)
                   (leaf "/opening-times" :inventory-pool-opening-times)
-                  (leaf "/time-slots" :inventory-pool-time-slots)
+                  (leaf "/hourly-reservations" :inventory-pool-hourly-reservations)
                   (leaf "/workdays" :inventory-pool-workdays)
                   users-paths
                   delegations/paths

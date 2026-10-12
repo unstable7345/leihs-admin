@@ -1,4 +1,4 @@
-(ns leihs.admin.resources.inventory-pools.inventory-pool.time-slots.core
+(ns leihs.admin.resources.inventory-pools.inventory-pool.hourly-reservations.core
   (:require
    [cljs.core.async :as async :refer [go <!]]
    [leihs.admin.common.http-client.core :as http-client]
@@ -11,7 +11,7 @@
 (defn fetch []
   (go (reset! data* (some->
                      {:chan (async/chan)
-                      :url (path :inventory-pool-time-slots
+                      :url (path :inventory-pool-hourly-reservations
                                  (-> @routing/state* :route-params))}
                      http-client/request :chan <!
                      http-client/filter-success! :body))))

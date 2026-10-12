@@ -25,6 +25,9 @@
     :label "Name"}
    {:key :is_verification_required
     :label "Verification required"}
+   {:key :max_reservation_hours
+    :label "Max. hours per reservation (by the hour)"
+    :value-component (fn [value] [:span (if value (str value) "No limit")])}
    {:key :entitlements_count
     :label "Number of models"}
    {:key :users_count
