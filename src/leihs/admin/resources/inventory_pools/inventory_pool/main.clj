@@ -107,9 +107,9 @@
 
 ;; Trimmed and in lower case, nil when empty; 422 when it is not an address.
 (defn- notification-email [value]
-  (when-let [email (some-> value str str/trim str/lower-case not-empty)]
+  (when-let [email (some-> value clojure.core/str str/trim str/lower-case not-empty)]
     (when-not (re-matches #"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" email)
-      (throw (ex-info (str "The notification email must be an email address: " email)
+      (throw (ex-info (clojure.core/str "The notification email must be an email address: " email)
                       {:status 422})))
     email))
 
