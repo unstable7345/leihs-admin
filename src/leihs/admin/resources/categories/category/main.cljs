@@ -28,6 +28,9 @@
       [:tr.name
        [:td [:strong "Name"] [:small " (name)"]]
        [:td (str (:name @core/data*))]]
+      [:tr.outlook-calendar
+       [:td [:strong "Outlook calendar"] [:small " (outlook_calendar)"]]
+       [:td (or (:outlook_calendar @core/data*) "—")]]
       [:tr.parents
        [:td [:strong "Parents"] [:small " (metadata:parents)"]]
        [:td [core/parent-paths-list (-> @core/data* :parents)]]]
