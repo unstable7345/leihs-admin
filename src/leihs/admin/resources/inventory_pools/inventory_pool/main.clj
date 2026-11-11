@@ -4,6 +4,7 @@
    [bidi.bidi :refer [match-route]]
    [clojure.core.match :refer [match]]
    [clojure.set :as set]
+   [clojure.string :as str]
    [honey.sql :refer [format] :rename {format sql-format}]
    [honey.sql.helpers :as sql]
    [leihs.admin.paths :refer [paths]]
@@ -30,6 +31,7 @@
                     :default_contract_note
                     :deliver_received_order_emails
                     :email_signature
+                    :notification_email
                     :print_contracts
                     :required_purpose})
 
@@ -103,13 +105,23 @@
     ;     first :exists)
     (validate-deactivation tx inventory-pool-id)))
 
+;; Trimmed and in lower case, nil when empty; 422 when it is not an address.
+(defn- notification-email [value]
+  (when-let [email (some-> value str str/trim str/lower-case not-empty)]
+    (when-not (re-matches #"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" email)
+      (throw (ex-info (str "The notification email must be an email address: " email)
+                      {:status 422})))
+    email))
+
 (defn patch-inventory-pool
   [{{inventory-pool-id :inventory-pool-id} :route-params
     tx :tx data :body :as request}]
   (when (->> ["SELECT true AS exists FROM inventory_pools WHERE id = ?" inventory-pool-id]
              (jdbc-query tx)
              first :exists)
-    (let [patch-data (select-keys data patch-fields)]
+    (let [patch-data (cond-> (select-keys data patch-fields)
+                       (contains? data :notification_email)
+                       (update :notification_email notification-email))]
       (when-not (:is_active patch-data)
         (validate-deactivation tx inventory-pool-id))
       (jdbc-update! tx :inventory_pools patch-data

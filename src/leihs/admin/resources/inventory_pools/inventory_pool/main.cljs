@@ -62,6 +62,10 @@
        [property-td "Email" "email"
         [:span [:i "from_address"] " for emails send in the name of this pool"]]
        [:td.email (:email @core/data*)]]
+      [:tr.notification-email
+       [property-td "Notification Email" "notification_email"
+        "Receives the \"received order\" notifications. Empty: the Email above."]
+       [:td.notification-email (:notification_email @core/data*)]]
       [:tr.email-signature
        [property-td "Email Signature" "email_signature"
         [:span "Available in the mail templates"]]
@@ -96,7 +100,7 @@
         (toggle-component (:required_purpose @core/data*))]]
       [:tr.deliver-received-order-emails
        [property-td "Deliver Received Order Emails" "deliver_received_order_emails"
-        "Receive an email to the pool's address when an order for this pool is submitted."]
+        "Receive an email to the notification email (or else the pool's address) when an order for this pool is submitted."]
        [:td.deliver-received-order-emails
         (toggle-component (:deliver_received_order_emails @core/data*))]]
       [:tr.borrow-reservation-advance-days

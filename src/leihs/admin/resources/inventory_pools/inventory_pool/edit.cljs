@@ -59,6 +59,10 @@
      :label "Email"
      :type :email
      :required true]]
+   [form-components/input-component data* [:notification_email]
+    :label "Notification Email"
+    :type :email
+    :hint "Receives the \"received order\" notifications. Empty: the Email above."]
    [form-components/input-component data* [:email_signature]
     :label "Email Signature"
     :element :textarea
