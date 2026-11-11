@@ -39,7 +39,8 @@
                                   :model_groups
                                   (-> data
                                       (select-keys [:name])
-                                      (assoc :type "Category")))]
+                                      (assoc :type "Category"
+                                             :outlook_calendar (category/outlook-calendar data))))]
     (let [id (:id category)]
       (when-let [image (not-empty (:image data))]
         (let [target-type "ModelGroup"

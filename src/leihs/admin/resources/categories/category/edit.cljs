@@ -24,6 +24,7 @@
 (defn map-data [data]
   {:id (:category_id data)
    :name (:name data)
+   :outlook_calendar (:outlook_calendar data)
    :image (-> data :metadata :image_url)
    :parents (->> (:parents data)
                  spy

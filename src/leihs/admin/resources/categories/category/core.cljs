@@ -146,6 +146,18 @@
         :value (or (:name @form-data*) "")
         :onChange (fn [e] (swap! form-data* assoc :name (-> e .-target .-value)))}]]
 
+     [:> Form.Group {:control-id "outlook_calendar"}
+      [:> Form.Label {:class-name "h5"} "Outlook calendar"]
+      [:input.form-control
+       {:id "outlook_calendar"
+        :type "email"
+        :placeholder "so@enti.cat"
+        :value (or (:outlook_calendar @form-data*) "")
+        :onChange (fn [e] (swap! form-data* assoc :outlook_calendar (-> e .-target .-value)))}]
+      [:> Form.Text {:className "text-muted"}
+       "Approved reservations of the models in this category and its subcategories "
+       "are copied as events to the calendar of this mailbox. Leave it empty to not copy them."]]
+
      [:> Form.Group {:control-id "description"}
       [:> Form.Label {:class-name "h5"} "Image"]
       [image/component form-data*]]]

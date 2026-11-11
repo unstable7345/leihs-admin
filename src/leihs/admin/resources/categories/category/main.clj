@@ -30,6 +30,7 @@
 
 (defn get-one [tx id]
   (-> id query
+      (sql/select :model_groups.outlook_calendar)
       (sql-add-metadata :label nil)
       sql-format
       (->> (jdbc/query tx))
@@ -59,6 +60,21 @@
                                {:return-keys true})))
     {:status 204}
     {:status 404 :body "Deleting category failed without error."}))
+
+;;; outlook calendar ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def ^:private email-pattern #"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}")
+
+(defn outlook-calendar
+  "The mailbox whose calendar receives the reservations of the category, as
+  stored: trimmed and in lower case, nil when empty. Rejects anything that is
+  not an email address."
+  [data]
+  (when-let [mailbox (some-> (:outlook_calendar data) str str/trim str/lower-case presence)]
+    (when-not (re-matches email-pattern mailbox)
+      (throw (ex-info (str "The Outlook calendar must be an email address, like so@enti.cat: " mailbox)
+                      {:status 422})))
+    mailbox))
 
 ;;; update category ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -168,7 +184,9 @@
   [{{id :category-id} :route-params tx :tx data :body :as request}]
   (if (-> (query id) sql-format (->> (jdbc/query tx)) first)
     (do (jdbc/update! tx :model_groups
-                      (select-keys data [:name])
+                      (cond-> (select-keys data [:name])
+                        (contains? data :outlook_calendar)
+                        (assoc :outlook_calendar (outlook-calendar data)))
                       ["type = 'Category' AND id = ?" id])
 
         (let [target-type "ModelGroup"
