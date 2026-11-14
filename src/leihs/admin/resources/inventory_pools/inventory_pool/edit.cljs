@@ -89,6 +89,9 @@
     [form-components/switch-component data* [:deliver_received_order_emails]
      :label "Deliver Received Order Emails"]]
    [:div.mb-3
+    [form-components/switch-component data* [:auto_approve_same_day]
+     :label "Auto-approve Same-day Orders"]]
+   [:div.mb-3
     [form-components/input-component data* [:borrow_reservation_advance_days]
      :label "Borrow: Reservation Advance Days"
      :type :number

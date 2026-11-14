@@ -103,6 +103,11 @@
         "Receive an email to the notification email (or else the pool's address) when an order for this pool is submitted."]
        [:td.deliver-received-order-emails
         (toggle-component (:deliver_received_order_emails @core/data*))]]
+      [:tr.auto-approve-same-day
+       [property-td "Auto-approve Same-day Orders" "auto_approve_same_day"
+        "Orders by the hour that start and end on the same day are approved automatically. Whole days, or several days, still need approval."]
+       [:td.auto-approve-same-day
+        (toggle-component (:auto_approve_same_day @core/data*))]]
       [:tr.borrow-reservation-advance-days
        [property-td "Borrow: Reservation Advance Days" "borrow_reservation_advance_days"
         "Minimum number of days required between reservation's created date and the expected hand over date when placed by a customer in the borrow app."]

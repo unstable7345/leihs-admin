@@ -33,7 +33,8 @@
                     :email_signature
                     :notification_email
                     :print_contracts
-                    :required_purpose})
+                    :required_purpose
+                    :auto_approve_same_day})
 
 (def create-fields base-fields)
 (def get-fields (set/union base-fields extra-fields))
