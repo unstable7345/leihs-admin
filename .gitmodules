@@ -3,4 +3,4 @@
 	url = https://github.com/unstable7345/leihs_database.git
 [submodule "leihs-clj-shared"]
 	path = shared-clj
-	url = https://github.com/leihs/leihs-clj-shared.git
+	url = https://github.com/unstable7345/leihs-clj-shared.git
